@@ -1,0 +1,69 @@
+//import React from 'react'
+//import ReactDOM from 'react-dom'
+
+class LoginContainer extends React.Component{
+  
+  constructor(props){
+    super(props)
+  }
+  
+  render(){
+    return (
+    <div>
+      <h1>Sample Sign-In Form</h1>
+      <FormContainer user={this.props.user}/>
+    </div>
+  )}
+}
+
+class FormContainer extends React.Component{
+  
+  constructor(props){
+    super(props)
+    this.state = {username:'',password:''}
+    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.authLogin = this.authLogin.bind(this)
+  }
+  
+  handleChange(e){
+    const name = e.target.name
+    const value = e.target.value
+    this.setState(
+      {[name]:value}
+    )
+  }
+  
+  
+  handleSubmit(){
+    this.authLogin()?alert('Login Success!'):alert('Login Failure.')
+  }
+  
+  authLogin(){
+    return (this.props.user.username==this.state.username && this.props.user.password ==this.state.password)
+  }
+  
+  render(){ 
+    return(
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <label>
+          Username: 
+            <input type='text' name="username" onChange={this.handleChange}/>
+          </label>
+          <br/>
+          <label>
+          Password: 
+            <input type='password' name="password"  onChange={this.handleChange}/>
+          </label><br/>
+          <input type='submit' value="Submit"/>
+        </form>  
+      </div>
+  )}
+}
+
+/*
+Clearly this is not a secure way to store user data. in a production context import this info from 
+whatever database solution in your project
+*/
+ReactDOM.render(<LoginContainer user={{username:'user',password:'pass'}}/>, document.getElementById('app'))
